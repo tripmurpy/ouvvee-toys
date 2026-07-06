@@ -26,7 +26,7 @@ Tahap ini merapikan seluruh pengetahuan proyek ke dalam dokumentasi yang bisa di
 - `brain/brain/analisa-kebutuhan-user.md`
 - `brain/brain/tech-stack.md`
 - `brain/brain/database-design.md`
-- `brain/brain/schema.sql`
+- `backend/database/migrations/2026_07_06_000000_create_ouvvee_schema.php`
 - `brain/brain/frontend-plan.md`
 - `brain/brain/frontend-source-references.md`
 
@@ -152,7 +152,7 @@ Tahap ini merapikan seluruh pengetahuan proyek ke dalam dokumentasi yang bisa di
 2. Tuliskan DFD level konteks dan level 1.
 3. Turunkan backend spec dari schema dan PRD.
 4. Turunkan frontend spec dari Blade snapshot.
-5. Tambahkan kamus data dari schema.sql.
+5. Tambahkan kamus data dari `database-design.md` dan migration Laravel.
 6. Tutup dengan checklist MVP.
 
 ## Output Yang Diharapkan
@@ -165,4 +165,3 @@ Dokumentasi final harus menjawab:
 - frontend harus menampilkan apa;
 - mana yang sudah ada dan mana yang masih rencana;
 - apa yang ditunda karena di luar MVP.
-

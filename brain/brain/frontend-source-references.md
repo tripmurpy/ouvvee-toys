@@ -20,14 +20,14 @@
 
 1. Ambil struktur dari Kiddo sebagai acuan, bukan copy penuh.
 2. Pecah `index.html` menjadi:
-   - `frontend/resources/views/layouts/store.blade.php`
-   - `frontend/resources/views/partials/store/header.blade.php`
-   - `frontend/resources/views/partials/store/footer.blade.php`
-   - `frontend/resources/views/components/product-card.blade.php`
-   - `frontend/resources/views/store/home.blade.php`
-   - `frontend/resources/views/store/products/index.blade.php`
-3. Pindahkan warna dan spacing penting ke `frontend/resources/css/app.css`.
-4. Pakai asset mainan sendiri di `frontend/public/images/`.
+   - `backend/resources/views/layouts/store.blade.php`
+   - `backend/resources/views/partials/store/header.blade.php`
+   - `backend/resources/views/partials/store/footer.blade.php`
+   - `backend/resources/views/components/product-card.blade.php`
+   - `backend/resources/views/store/home.blade.php`
+   - `backend/resources/views/store/products/index.blade.php`
+3. Pindahkan warna dan spacing penting ke `backend/resources/css/app.css`.
+4. Pakai asset mainan sendiri di `backend/public/images/`.
 5. Jangan tambah dependency frontend baru kalau Bootstrap/CSS template sudah cukup.
 
 ## Yang Perlu Diambil

@@ -1,7 +1,7 @@
 # Database Design
 
 ## DBMS
-MySQL dengan model data relasional.
+Supabase PostgreSQL dengan model data relasional.
 
 ## Entitas
 | Tabel | Fungsi |
@@ -54,6 +54,11 @@ MySQL dengan model data relasional.
 8. Pesanan memiliki satu pembayaran.
 9. Pesanan memiliki satu pengiriman.
 10. User dan produk terhubung melalui review dan wishlist.
+
+## Seed Katalog
+- Katalog MVP mengikuti 9 produk display figure dari brief produk.
+- Thumbnail disimpan sebagai file publik di `backend/public/images/products/` dan dicerminkan ke `products.image_url`.
+- `product_images` menyimpan baris gallery per produk; satu baris utama cukup untuk thumbnail, detail page bisa menambah gallery lain nanti.
 
 ## Normalisasi
 - UNF: data transaksi mentah berisi order, user, alamat, produk, pembayaran, dan pengiriman dalam satu bentuk.

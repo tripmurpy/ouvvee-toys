@@ -1,10 +1,12 @@
 # Tahap 5: Perancangan Basis Data Secara Fisik
 
-Desain fisik basis data dibuat menggunakan MySQL.
+Desain fisik basis data aktif di Supabase PostgreSQL melalui Laravel migration `backend/database/migrations/2026_07_06_000000_create_ouvvee_schema.php`.
+
+> Catatan: SQL di bawah adalah draft fisik lama. Skema yang dipakai sekarang mengikuti migration Laravel.
 
 ```sql
-CREATE DATABASE ouvvee_penjualan;
-USE ouvvee_penjualan;
+CREATE DATABASE ouvvee_toys;
+USE ouvvee_toys;
 
 CREATE TABLE penjual (
     id_penjual INT AUTO_INCREMENT PRIMARY KEY,

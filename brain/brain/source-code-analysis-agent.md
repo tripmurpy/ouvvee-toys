@@ -21,17 +21,17 @@ ponytail: satu agent cukup karena tugasnya audit repo lokal; pecah jadi multi-ag
 - Jangan menghapus atau merapikan file hanya karena terlihat berantakan.
 
 ## Konteks Proyek
-Ouvvee Toys adalah website e-commerce mainan berbasis Laravel, Blade, dan MySQL. Katalog dan detail produk publik. Checkout hanya untuk user login. Payment dan shipment masih simulasi. Admin hanya dashboard read-only untuk stok dan ringkasan penjualan.
+Ouvvee Toys adalah website e-commerce mainan berbasis Laravel, Blade, dan Supabase PostgreSQL. Katalog dan detail produk publik. Checkout hanya untuk user login. Payment dan shipment masih simulasi. Admin hanya dashboard read-only untuk stok dan ringkasan penjualan.
 
 Lokasi penting:
 - `brain/about/project-context.md`
 - `brain/brain/prd.md`
 - `brain/brain/tech-stack.md`
 - `brain/brain/database-design.md`
-- `brain/brain/schema.sql`
-- `frontend/resources/views/`
-- `frontend/resources/css/app.css`
-- `frontend/resources/js/app.js`
+- `backend/database/migrations/2026_07_06_000000_create_ouvvee_schema.php`
+- `backend/resources/views/`
+- `backend/resources/css/app.css`
+- `backend/resources/js/app.js`
 
 ## Tools yang Boleh Dipakai
 - File read/search lokal.
@@ -45,7 +45,7 @@ Lokasi penting:
    - `brain/brain/prd.md`
    - `brain/brain/tech-stack.md`
    - `brain/brain/database-design.md`
-   - `brain/brain/schema.sql`
+   - `backend/database/migrations/2026_07_06_000000_create_ouvvee_schema.php`
 3. Cek status Git agar tidak mencampur perubahan user dengan hasil analisis.
 4. Petakan struktur source code yang ada.
 5. Telusuri alur utama:

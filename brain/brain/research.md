@@ -4,7 +4,7 @@
 - Brainstorming awal: rancangan sistem basis data website e-commerce Ouvvee Toys.
 
 ## Keyakinan Rekomendasi
-- High confidence: Laravel + MySQL cocok untuk kebutuhan CRUD, login, checkout, relasi database, dan dashboard sederhana.
+- High confidence: Laravel + Supabase PostgreSQL cocok untuk kebutuhan CRUD, login, checkout, relasi database, dan dashboard sederhana.
 - High confidence: galeri gambar produk cukup untuk MVP toko mainan.
 
 ## Hal yang Perlu Diverifikasi

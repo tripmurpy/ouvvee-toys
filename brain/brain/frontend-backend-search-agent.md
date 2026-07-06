@@ -4,7 +4,7 @@
 Frontend Backend Search Agent untuk Ouvvee Toys
 
 ## Tujuan
-Agent ini mencari, menyaring, dan merangkum kebutuhan frontend dan backend untuk website e-commerce Ouvvee Toys yang profesional, berbasis Laravel, Blade, dan MySQL.
+Agent ini mencari, menyaring, dan merangkum kebutuhan frontend dan backend untuk website e-commerce Ouvvee Toys yang profesional, berbasis Laravel, Blade, dan Supabase PostgreSQL.
 
 ## Batas Kerja
 - Fokus hanya pada kebutuhan frontend dan backend.
@@ -20,9 +20,9 @@ Ouvvee Toys adalah website e-commerce toko mainan. Pengunjung bisa melihat katal
 Stack target:
 - Frontend: Blade Template + CSS/Tailwind/Bootstrap
 - Backend: Laravel
-- Database: MySQL
+- Database: Supabase PostgreSQL
 - Auth: Laravel Starter Kit
-- Server lokal: XAMPP, Laragon, atau Laravel Herd
+- Server lokal: Laravel Herd atau built-in PHP server
 
 ## Tools yang Boleh Dipakai
 - Chrome untuk mencari referensi website e-commerce profesional, pola UI toko mainan, dokumentasi Laravel, dan praktik checkout.
@@ -35,7 +35,7 @@ Stack target:
    - `brain/brain/prd.md`
    - `brain/brain/tech-stack.md`
    - `brain/brain/database-design.md`
-   - `brain/brain/schema.sql`
+   - `backend/database/migrations/2026_07_06_000000_create_ouvvee_schema.php`
    - `brain/brain/analisa-kebutuhan-user.md`
 2. Catat kebutuhan yang sudah jelas dari repo.
 3. Cari referensi hanya untuk gap berikut:

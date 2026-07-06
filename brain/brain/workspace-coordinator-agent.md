@@ -80,7 +80,7 @@ Risks:
 ## Komunikasi Internal
 
 - `brain/about/project-context.md` adalah sumber konteks produk.
-- `brain/brain/prd.md`, `brain/brain/schema.sql`, dan `brain/brain/database-design.md` adalah sumber scope dan data.
+- `brain/brain/prd.md`, `brain/brain/database-design.md`, dan `backend/database/migrations/2026_07_06_000000_create_ouvvee_schema.php` adalah sumber scope dan data.
 - `brain/report/session-*.md` adalah catatan keputusan dan status terakhir.
 - Dokumen agent ini adalah routing layer, bukan source of truth produk.
 
@@ -103,4 +103,3 @@ Agent ini dianggap berhasil jika:
 - ada check runnable untuk logika non-trivial;
 - keputusan penting tercatat di report sesi;
 - agent spesialis dipakai hanya saat benar-benar membantu.
-

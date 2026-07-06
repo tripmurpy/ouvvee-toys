@@ -100,4 +100,4 @@ Ouvvee Toys - Website E-Commerce Toko Mainan
 - Rancangan relasi database.
 - Normalisasi database.
 - Desain user interface.
-- Script implementasi basis data MySQL.
+- Implementasi basis data via Laravel migration pada Supabase PostgreSQL.

@@ -42,10 +42,11 @@ Ouvvee Toys adalah toko mainan pajangan yang menjual produk mainan untuk dilihat
 - Homepage, katalog, detail produk, cart, checkout, order status, wishlist, review, dan admin dashboard.
 - Payment simulasi, bukan payment gateway asli.
 - Shipping simulasi dengan jasa pengiriman yang ditentukan sistem.
-- Data produk dan stok disimpan di database relasional.
+- Data produk dan stok disimpan di Supabase PostgreSQL sebagai database relasional.
+- Katalog MVP berisi 9 display figure dari brief produk, dengan thumbnail publik di `backend/public/images/products/`.
 
 ## Output yang Diharapkan
-Website e-commerce berbasis Laravel, Blade, dan MySQL yang mendukung browsing katalog publik, detail produk yang informatif, cart dan checkout login, pembayaran simulasi, pengiriman, review, wishlist, status pesanan, dan dashboard admin sederhana.
+Website e-commerce berbasis Laravel, Blade, dan Supabase PostgreSQL yang mendukung browsing katalog publik, detail produk yang informatif, cart dan checkout login, pembayaran simulasi, pengiriman, review, wishlist, status pesanan, dan dashboard admin sederhana.
 
 ## Goals Akhir
 - Katalog produk dapat diakses publik.

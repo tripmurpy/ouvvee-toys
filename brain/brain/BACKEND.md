@@ -55,7 +55,7 @@ Backend dibangun sebagai Laravel web app dengan API tipis bila dibutuhkan untuk 
 | --- | --- | --- |
 | App | Laravel 11+ | Blade-first web app, not SPA-first. |
 | Runtime | PHP 8.3+ | Use current stable PHP in the project environment. |
-| Database | MySQL 8.x | Relational model from `schema.sql`. |
+| Database | Supabase PostgreSQL | Relational model from the Laravel migration. |
 | Auth | Laravel starter kit | Session auth, CSRF protection, password hashing. |
 | Queue | Database or Redis | `database` is fine for local dev; Redis if available in prod. |
 | Cache | Redis preferred, file fallback | Cache catalog and reference data. |
@@ -190,6 +190,8 @@ Validation failure should return:
 - Product detail loads gallery from `product_images`.
 - Product route key should be `slug`, not raw database id.
 - Price shown on product cards is public price only, not internal cost.
+- MVP catalog is seeded from the product brief: Mechanical Arm Display Figure, Bulldozer Track Figure, Red Dragon Head Figure, White Battle Mech Figure, Blue Security Robot Figure, Pink Crab Robot Figure, Yellow Loader Track Figure, Stone Golem Figure, and Royal Castle Miniature Figure.
+- Thumbnail URLs come from `products.image_url` and the gallery comes from `product_images`; frontend should consume URLs only and never raw filesystem paths.
 
 ### Cart
 
@@ -250,7 +252,7 @@ If any step fails, rollback everything.
 
 ## 10. Database
 
-Use `brain/brain/database-design.md` and `brain/brain/schema.sql` as the source of truth for the MVP. Backend-specific rules:
+Use `brain/brain/database-design.md` and `backend/database/migrations/2026_07_06_000000_create_ouvvee_schema.php` as the source of truth for the MVP. Backend-specific rules:
 
 - `products.slug` should exist as a unique public route key.
 - `categories.slug` should exist as a unique public route key.
@@ -342,7 +344,7 @@ Document and keep these in `.env`:
 | Group | Variables |
 | --- | --- |
 | App | `APP_NAME`, `APP_ENV`, `APP_KEY`, `APP_DEBUG`, `APP_URL`, `APP_TIMEZONE`, `APP_LOCALE`, `APP_FALLBACK_LOCALE`, `APP_FAKER_LOCALE` |
-| Database | `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` |
+| Database | `DB_CONNECTION`, `DB_URL`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, `DB_SSLMODE` |
 | Session and cache | `SESSION_DRIVER`, `SESSION_LIFETIME`, `CACHE_STORE` |
 | Queue | `QUEUE_CONNECTION` |
 | Storage | `FILESYSTEM_DISK` |

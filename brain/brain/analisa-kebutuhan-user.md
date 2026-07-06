@@ -17,7 +17,7 @@ Menetapkan kebutuhan awal user untuk website e-commerce Ouvvee Toys sebagai toko
 | Analisa kebutuhan user | Selesai | Dokumen ini. |
 | Kebutuhan data | Selesai awal | Data utama diturunkan dari PRD dan schema. |
 | Rancangan relasi database | Draft | Entitas, relasi, kunci, dan normalisasi sudah ada di `database-design.md`. |
-| Script SQL MySQL | Draft | `schema.sql` sudah mengikuti scope toko mainan dan `product_images`. |
+| Implementasi basis data | Draft | Laravel migration sudah mengikuti scope toko mainan dan `product_images` di Supabase PostgreSQL. |
 | DFD sistem | Ditunda | Belum dikerjakan sesuai instruksi. |
 | ERD / model konseptual | Belum | Dikerjakan setelah DFD disetujui. |
 
