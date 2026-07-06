@@ -3,20 +3,9 @@
 @section('title', 'Detail Produk - Ouvvee Toys')
 
 @php
-    $product = $product ?? [
-        'name' => 'Galaxy Ranger Figure',
-        'category' => 'Figur',
-        'price' => 249000,
-        'stock' => 12,
-        'age' => '8+',
-        'rating' => 5,
-        'description' => 'Figur artikulasi dengan aksesori helm, base display, dan material plastik ABS.',
-        'safety_note' => 'Mengandung bagian kecil. Tidak untuk anak di bawah 3 tahun.',
-        'size' => '18 cm',
-        'weight_gram' => 420,
-        'model_url' => '/models/products/robot_police.glb',
-    ];
-
+    $name = data_get($product, 'name', data_get($product, 'product_name'));
+    $category = data_get($product, 'category.category_name', data_get($product, 'category'));
+    $age = data_get($product, 'age', data_get($product, 'recommended_age'));
     $modelUrl = data_get($product, 'model_url');
     $modelPath = $modelUrl ? ltrim(parse_url($modelUrl, PHP_URL_PATH) ?: $modelUrl, '/') : null;
     // ponytail: support this frontend snapshot and future Laravel public paths; remove fallback after backend moves views/public into one app.
@@ -59,14 +48,14 @@
     </div>
     <div class="stack-lg">
         <div class="stack">
-            <x-badge>{{ data_get($product, 'category') }}</x-badge>
-            <h1 class="page-title">{{ data_get($product, 'name') }}</h1>
-            <x-rating :value="data_get($product, 'rating', 5)" count="28" />
+            <x-badge>{{ $category }}</x-badge>
+            <h1 class="page-title">{{ $name }}</h1>
+            <x-rating :value="round((float) data_get($product, 'reviews_avg_rating', 5))" :count="data_get($product, 'reviews_count', data_get($product, 'reviews', collect())->count())" />
             <x-price :amount="data_get($product, 'price')" style="font-size:32px" />
             <p class="lead">{{ data_get($product, 'description') }}</p>
         </div>
         <div class="card panel grid grid-2">
-            <div><strong>Usia</strong><p class="muted">{{ data_get($product, 'age') }}</p></div>
+            <div><strong>Usia</strong><p class="muted">{{ $age }}</p></div>
             <div><strong>Stok</strong><p class="muted">{{ data_get($product, 'stock') }} tersedia</p></div>
             <div><strong>Ukuran</strong><p class="muted">{{ data_get($product, 'size') }}</p></div>
             <div><strong>Berat</strong><p class="muted">{{ data_get($product, 'weight_gram') }} gram</p></div>
@@ -76,8 +65,23 @@
             <p class="muted">{{ data_get($product, 'safety_note') }}</p>
         </div>
         <div class="actions">
-            <x-button>Tambah ke keranjang</x-button>
-            <x-button variant="ghost">Simpan wishlist</x-button>
+            @if(data_get($product, 'stock') > 0)
+                <form action="{{ route('cart.items.store') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="id_product" value="{{ data_get($product, 'id_product') }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <x-button type="submit">Tambah ke keranjang</x-button>
+                </form>
+            @else
+                <x-button disabled>Stok habis</x-button>
+            @endif
+            <form action="{{ route('wishlist.store', $product) }}" method="post">
+                @csrf
+                <x-button type="submit" variant="ghost">Simpan wishlist</x-button>
+            </form>
+            @auth
+                <x-button :href="route('reviews.create', $product)" variant="ghost">Tulis review</x-button>
+            @endauth
         </div>
     </div>
 </section>

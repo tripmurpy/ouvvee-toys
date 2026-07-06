@@ -4,10 +4,12 @@
 
 @section('content')
 <section class="container section">
-    <form class="card panel stack-lg" style="max-width:720px">
+    <form class="card panel stack-lg" style="max-width:720px" action="{{ route('reviews.store', $product) }}" method="post">
+        @csrf
         <div>
             <p class="eyebrow">Review produk</p>
             <h1 class="page-title">Bagikan pengalaman</h1>
+            <p class="muted">{{ $product->product_name }} / {{ $order->order_code }}</p>
         </div>
         <div class="field">
             <label for="rating">Rating</label>

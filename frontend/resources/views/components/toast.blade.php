@@ -1,5 +1,5 @@
-@props(['message' => session('status')])
+@props(['message' => session('status'), 'tone' => 'ok'])
 
-@if($message)
-    <div class="toast" role="status">{{ $message }}</div>
+@if($message || trim($slot) !== '')
+    <div {{ $attributes->merge(['class' => 'toast toast-' . $tone]) }} role="status">{{ $message ?: $slot }}</div>
 @endif

@@ -4,7 +4,8 @@
 
 @section('content')
 <section class="container section split">
-    <form class="stack-lg">
+    <form class="stack-lg" action="{{ route('checkout.store') }}" method="post">
+        @csrf
         <div>
             <p class="eyebrow">Checkout login</p>
             <h1 class="page-title">Alamat dan pembayaran</h1>
@@ -12,24 +13,29 @@
         </div>
         <div class="card panel stack">
             <h2 style="margin:0">Alamat</h2>
-            <x-form-field label="Nama penerima" name="recipient_name" value="Benny" />
-            <x-form-field label="Nomor telepon" name="phone" value="081234567890" />
-            <x-form-field label="Alamat lengkap" name="address" type="textarea" rows="4" value="Jl. Mainan No. 7, Jakarta" />
+            <x-form-field label="Nama penerima" name="recipient_name" :value="data_get($address, 'recipient_name', auth()->user()->name)" />
+            <x-form-field label="Nomor telepon" name="phone" :value="data_get($address, 'phone', auth()->user()->phone)" />
+            <x-form-field label="Provinsi" name="province" :value="data_get($address, 'province', 'DKI Jakarta')" />
+            <x-form-field label="Kota" name="city" :value="data_get($address, 'city', 'Jakarta')" />
+            <x-form-field label="Kecamatan" name="district" :value="data_get($address, 'district', 'Kebayoran Baru')" />
+            <x-form-field label="Alamat lengkap" name="detail_address" type="textarea" rows="4" :value="data_get($address, 'detail_address')" />
+            <x-form-field label="Kode pos" name="postal_code" :value="data_get($address, 'postal_code')" />
         </div>
         <div class="card panel grid grid-2">
             <div class="field">
                 <label for="payment">Pembayaran</label>
-                <select id="payment" name="payment" class="field-control">
-                    <option>Transfer Bank</option>
-                    <option>Kartu Kredit</option>
-                    <option>COD</option>
+                <select id="payment" name="id_payment_method" class="field-control">
+                    @foreach($paymentMethods as $method)
+                        <option value="{{ $method->id_payment_method }}">{{ $method->method_name }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="field">
                 <label for="shipping">Pengiriman</label>
-                <select id="shipping" name="shipping" class="field-control">
-                    <option>JNE</option>
-                    <option>GOJEK</option>
+                <select id="shipping" name="id_shipping_method" class="field-control">
+                    @foreach($shippingMethods as $method)
+                        <option value="{{ $method->id_shipping_method }}">{{ $method->method_name }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -37,9 +43,9 @@
     </form>
     <aside class="card panel stack">
         <h2 style="margin:0">Ringkasan pesanan</h2>
-        <x-order-summary label="Subtotal" :amount="427000" />
-        <x-order-summary label="Ongkir JNE" :amount="15000" />
-        <x-order-summary label="Total" :amount="442000" strong />
+        <x-order-summary label="Subtotal" :amount="$subtotal" />
+        <x-order-summary label="Estimasi ongkir" :amount="$shippingCost" />
+        <x-order-summary label="Total" :amount="$total" strong />
     </aside>
 </section>
 @endsection

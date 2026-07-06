@@ -4,10 +4,7 @@
 
 @section('content')
 @php
-    $products = $products ?? [
-        ['name' => 'Luna Plush Doll', 'category' => 'Boneka', 'price' => 159000, 'stock' => 4, 'age' => '3+', 'rating' => 4],
-        ['name' => 'City Racer Mini', 'category' => 'Mobil', 'price' => 129000, 'stock' => 6, 'age' => '5+', 'rating' => 4],
-    ];
+    $products = $products ?? collect();
 @endphp
 
 <section class="container section stack-lg">
@@ -16,9 +13,11 @@
         <h1 class="page-title">Mainan favorit</h1>
     </div>
     <div class="grid grid-3">
-        @foreach($products as $product)
+        @forelse($products as $product)
             <x-product-card :product="$product" />
-        @endforeach
+        @empty
+            <x-empty-state title="Wishlist kosong" body="Simpan produk favorit dari katalog." />
+        @endforelse
     </div>
 </section>
 @endsection

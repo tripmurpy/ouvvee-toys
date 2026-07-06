@@ -4,11 +4,8 @@
 
 @section('content')
 @php
-    $items = $items ?? [
-        ['name' => 'Galaxy Ranger Figure', 'price' => 249000, 'qty' => 1],
-        ['name' => 'Puzzle Safari 120 pcs', 'price' => 89000, 'qty' => 2],
-    ];
-    $subtotal = array_sum(array_map(fn ($item) => $item['price'] * $item['qty'], $items));
+    $items = $items ?? collect();
+    $subtotal = $subtotal ?? $items->sum(fn ($item) => $item->quantity * (float) $item->product->price);
 @endphp
 
 <section class="container section split">
@@ -21,12 +18,21 @@
             <div class="card panel cart-row">
                 <div class="thumb" aria-hidden="true"></div>
                 <div>
-                    <strong>{{ $item['name'] }}</strong>
-                    <p class="muted small"><x-price :amount="$item['price']" /> per item</p>
+                    <strong>{{ $item->product->product_name }}</strong>
+                    <p class="muted small"><x-price :amount="$item->product->price" /> per item</p>
                 </div>
                 <div class="actions">
-                    <input class="field-control" style="width:82px" data-qty type="number" min="1" value="{{ $item['qty'] }}" aria-label="Jumlah {{ $item['name'] }}">
-                    <x-button variant="ghost">Hapus</x-button>
+                    <form action="{{ route('cart.items.update', $item) }}" method="post" class="actions">
+                        @csrf
+                        @method('patch')
+                        <input class="field-control" style="width:82px" data-qty type="number" name="quantity" min="1" max="{{ $item->product->stock }}" value="{{ $item->quantity }}" aria-label="Jumlah {{ $item->product->product_name }}">
+                        <x-button type="submit" variant="ghost">Update</x-button>
+                    </form>
+                    <form action="{{ route('cart.items.destroy', $item) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <x-button type="submit" variant="ghost">Hapus</x-button>
+                    </form>
                 </div>
             </div>
         @empty
@@ -38,7 +44,7 @@
         <x-order-summary label="Subtotal" :amount="$subtotal" />
         <x-order-summary label="Estimasi ongkir">Pilih saat checkout</x-order-summary>
         <x-order-summary label="Total sementara" :amount="$subtotal" strong />
-        <x-button href="{{ url('/checkout') }}">Checkout</x-button>
+        <x-button href="{{ route('checkout.index') }}">Checkout</x-button>
     </aside>
 </section>
 @endsection

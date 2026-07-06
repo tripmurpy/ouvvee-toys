@@ -2,15 +2,21 @@
 
 @php
     $name = data_get($product, 'name', data_get($product, 'product_name', 'Mainan Koleksi'));
-    $category = data_get($product, 'category', data_get($product, 'category.category_name', 'Toys'));
+    $category = data_get($product, 'category.category_name', data_get($product, 'category', 'Toys'));
     $brand = data_get($product, 'brand', data_get($product, 'seller.name', 'Ouvvee Curated'));
     $label = data_get($product, 'label');
+    $id = data_get($product, 'id_product');
     $price = data_get($product, 'price', 0);
     $stock = (int) data_get($product, 'stock', 0);
     $age = data_get($product, 'age', data_get($product, 'recommended_age', '3+'));
-    $rating = (int) data_get($product, 'rating', 5);
-    $reviews = (int) data_get($product, 'reviews', data_get($product, 'reviews_count', 0));
-    $slug = trim(strtolower(preg_replace('/[^a-z0-9]+/i', '-', $name)), '-');
+    $rating = (int) round((float) data_get($product, 'rating', data_get($product, 'reviews_avg_rating', 5)));
+    $reviewsValue = data_get($product, 'reviews_count');
+    if ($reviewsValue === null) {
+        $reviewsRelation = data_get($product, 'reviews');
+        $reviewsValue = is_countable($reviewsRelation) ? count($reviewsRelation) : (int) $reviewsRelation;
+    }
+    $reviews = (int) $reviewsValue;
+    $slug = data_get($product, 'slug', trim(strtolower(preg_replace('/[^a-z0-9]+/i', '-', $name)), '-'));
     $url = data_get($product, 'url', url('/products/' . $slug));
     $modelUrl = data_get($product, 'model_url');
     $modelPath = $modelUrl ? ltrim(parse_url($modelUrl, PHP_URL_PATH) ?: $modelUrl, '/') : null;
@@ -67,7 +73,16 @@
 
         <div class="actions">
             <x-button :href="$url" variant="ghost">Detail</x-button>
-            <x-button :disabled="$isSoldOut" aria-disabled="{{ $isSoldOut ? 'true' : 'false' }}">{{ $isSoldOut ? 'Sold Out' : 'Acquire' }}</x-button>
+            @if($id && ! $isSoldOut)
+                <form action="{{ route('cart.items.store') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="id_product" value="{{ $id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <x-button type="submit">Acquire</x-button>
+                </form>
+            @else
+                <x-button :disabled="$isSoldOut" aria-disabled="{{ $isSoldOut ? 'true' : 'false' }}">{{ $isSoldOut ? 'Sold Out' : 'Acquire' }}</x-button>
+            @endif
         </div>
     </div>
 </article>

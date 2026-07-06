@@ -4,13 +4,7 @@
 @section('body_class', 'gallery-home-page')
 
 @php
-    // ponytail: demo landing payload lives here until backend sends real curated exhibit data.
-    $featured = $featured ?? [
-        ['name' => 'Ruin Sentinel // Type-Zero', 'category' => 'Mechanical Figure', 'price' => 249000, 'stock' => 12, 'model_url' => '/models/products/robot_police.glb'],
-        ['name' => 'Ashen Builder Unit', 'category' => 'Construction Mecha', 'price' => 189000, 'stock' => 6, 'model_url' => '/models/products/bulldozer.glb'],
-        ['name' => 'Crimson Crab Drone', 'category' => 'Collector Drone', 'price' => 229000, 'stock' => 9, 'model_url' => '/models/products/robot_crab.glb'],
-    ];
-
+    $featured = $featured ?? collect();
     $heroModelUrl = data_get($featured, '0.model_url', '/models/products/robot_police.glb');
     $heroModelPath = ltrim(parse_url($heroModelUrl, PHP_URL_PATH) ?: $heroModelUrl, '/');
     // ponytail: support this repo snapshot and a normal Laravel public path until frontend files are merged into one app root.
@@ -44,7 +38,7 @@
             @if($heroModelExists)
                 <model-viewer
                     src="{{ asset($heroModelPath) }}"
-                    alt="Model 3D {{ data_get($featured, '0.name') }}"
+                    alt="Model 3D {{ data_get($featured, '0.name', data_get($featured, '0.product_name')) }}"
                     camera-controls
                     auto-rotate
                     shadow-intensity="1"
@@ -84,17 +78,19 @@
         <div class="gallery-product-grid">
             @foreach($featured as $product)
                 @php
+                    $name = data_get($product, 'name', data_get($product, 'product_name'));
+                    $category = data_get($product, 'category.category_name', data_get($product, 'category'));
                     $modelUrl = data_get($product, 'model_url');
                     $modelPath = $modelUrl ? ltrim(parse_url($modelUrl, PHP_URL_PATH) ?: $modelUrl, '/') : null;
                     $modelExists = $modelPath && (file_exists(public_path($modelPath)) || file_exists(base_path('frontend/public/' . $modelPath)));
-                    $slug = trim(strtolower(preg_replace('/[^a-z0-9]+/i', '-', data_get($product, 'name'))), '-');
+                    $slug = data_get($product, 'slug', trim(strtolower(preg_replace('/[^a-z0-9]+/i', '-', $name)), '-'));
                 @endphp
                 <article class="gallery-product">
-                    <a class="gallery-product-media" href="{{ url('/products/' . $slug) }}" aria-label="Lihat {{ data_get($product, 'name') }}">
+                    <a class="gallery-product-media" href="{{ route('products.show', $slug) }}" aria-label="Lihat {{ $name }}">
                         @if($modelExists)
                             <model-viewer
                                 src="{{ asset($modelPath) }}"
-                                alt="Model 3D {{ data_get($product, 'name') }}"
+                                alt="Model 3D {{ $name }}"
                                 auto-rotate
                                 shadow-intensity=".7"
                                 loading="lazy"
@@ -104,13 +100,13 @@
                         @endif
                     </a>
                     <div class="gallery-product-body">
-                        <span>{{ data_get($product, 'category') }}</span>
-                        <h3>{{ data_get($product, 'name') }}</h3>
+                        <span>{{ $category }}</span>
+                        <h3>{{ $name }}</h3>
                         <div class="gallery-product-meta">
                             <x-price :amount="data_get($product, 'price')" />
                             <strong>{{ data_get($product, 'stock') }} in stock</strong>
                         </div>
-                        <a class="gallery-btn gallery-btn-primary" href="{{ url('/products/' . $slug) }}">Acquire</a>
+                        <a class="gallery-btn gallery-btn-primary" href="{{ route('products.show', $slug) }}">Acquire</a>
                     </div>
                 </article>
             @endforeach

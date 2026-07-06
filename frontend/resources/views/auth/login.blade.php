@@ -9,7 +9,8 @@
         <p class="eyebrow">Masuk</p>
         <h1 style="margin:0">Login untuk checkout</h1>
     </div>
-    <form class="stack">
+    <form class="stack" action="{{ route('login') }}" method="post">
+        @csrf
         <x-form-field label="Email" name="email" type="email" placeholder="nama@email.com" />
         <x-form-field label="Password" name="password" type="password" placeholder="Password" />
         <x-button type="submit">Login</x-button>

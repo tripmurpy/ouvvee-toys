@@ -6,19 +6,30 @@
         </a>
 
         <nav class="nav-links" aria-label="Navigasi utama">
-            <a href="{{ url('/products') }}">Katalog</a>
-            <a href="{{ url('/wishlist') }}">Wishlist</a>
-            <a href="{{ url('/orders/OVV-2407') }}">Status Pesanan</a>
-            <a href="{{ url('/admin') }}">Admin</a>
+            <a href="{{ route('products.index') }}">Katalog</a>
+            <a href="{{ route('wishlist.index') }}">Wishlist</a>
+            <a href="{{ route('orders.index') }}">Status Pesanan</a>
+            @auth
+                @if(auth()->user()->role === 'admin')
+                <a href="{{ route('admin.dashboard') }}">Admin</a>
+                @endif
+            @endauth
         </nav>
 
         <div class="nav-actions">
-            <form class="search" action="{{ url('/products') }}" method="get">
+            <form class="search" action="{{ route('products.index') }}" method="get">
                 <span aria-hidden="true">Search</span>
                 <input name="q" type="search" placeholder="Cari mainan..." value="{{ request('q') }}">
             </form>
-            <a class="btn btn-ghost" href="{{ url('/cart') }}">Cart</a>
-            <a class="btn btn-primary" href="{{ url('/login') }}">Login</a>
+            <a class="btn btn-ghost" href="{{ route('cart.index') }}">Cart</a>
+            @auth
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button class="btn btn-primary" type="submit">Logout</button>
+                </form>
+            @else
+                <a class="btn btn-primary" href="{{ route('login') }}">Login</a>
+            @endauth
         </div>
     </div>
 </header>

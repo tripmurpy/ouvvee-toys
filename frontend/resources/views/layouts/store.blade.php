@@ -11,6 +11,13 @@
     <div class="shell">
         @include('partials.store.header')
         <main id="main-content" class="main">
+            @if(session('success') || session('error'))
+                <div class="container" style="padding-top:16px">
+                    <x-toast :tone="session('error') ? 'danger' : 'ok'">
+                        {{ session('error') ?? session('success') }}
+                    </x-toast>
+                </div>
+            @endif
             @yield('content')
         </main>
         @include('partials.store.footer')
