@@ -1,0 +1,237 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1700" viewBox="0 0 2200 1700" role="img" aria-labelledby="title desc">
+  <title id="title">DFD Ouvvee Toys E-Commerce</title>
+  <desc id="desc">Data Flow Diagram Level 0 dan Level 1 untuk sistem e-commerce Ouvvee Toys.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2563eb"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; rx: 18; filter: url(#shadow); }
+      .title { font: 700 42px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 19px Arial, sans-serif; fill: #475569; }
+      .section { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .small { font: 400 15px Arial, sans-serif; fill: #475569; }
+      .flow { font: 700 14px Arial, sans-serif; fill: #1d4ed8; }
+      .note { font: 400 14px Arial, sans-serif; fill: #64748b; }
+      .entity { fill: #ffffff; stroke: #0f172a; stroke-width: 2.2; rx: 8; filter: url(#shadow); }
+      .process { fill: #e0f2fe; stroke: #0284c7; stroke-width: 2.4; rx: 24; filter: url(#shadow); }
+      .system { fill: #dbeafe; stroke: #2563eb; stroke-width: 3; rx: 28; filter: url(#shadow); }
+      .store { fill: #fff7ed; stroke: #ea580c; stroke-width: 2; rx: 3; filter: url(#shadow); }
+      .store-divider { stroke: #ea580c; stroke-width: 2; }
+      .line { fill: none; stroke: #2563eb; stroke-width: 2.2; marker-end: url(#arrow); }
+      .thin { fill: none; stroke: #2563eb; stroke-width: 1.8; marker-end: url(#arrow); }
+      .muted { fill: none; stroke: #64748b; stroke-width: 1.7; stroke-dasharray: 7 7; marker-end: url(#arrow); }
+      .legend { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.4; rx: 10; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="2200" height="1700"/>
+
+  <text x="90" y="70" class="title">Data Flow Diagram - Ouvvee Toys</text>
+  <text x="92" y="108" class="subtitle">Website e-commerce mainan berbasis Laravel, Blade, dan MySQL</text>
+
+  <rect x="1520" y="38" width="580" height="100" class="legend"/>
+  <rect x="1550" y="65" width="78" height="36" class="entity"/>
+  <text x="1646" y="89" class="small">Entitas eksternal</text>
+  <rect x="1810" y="62" width="86" height="42" class="process"/>
+  <text x="1916" y="89" class="small">Proses</text>
+  <rect x="1550" y="108" width="92" height="28" class="store"/>
+  <line x1="1564" y1="108" x2="1564" y2="136" class="store-divider"/>
+  <text x="1646" y="129" class="small">Data store</text>
+
+  <rect x="80" y="165" width="2040" height="430" class="panel"/>
+  <text x="120" y="212" class="section">DFD Level 0 - Konteks Sistem</text>
+
+  <rect x="150" y="292" width="270" height="86" class="entity"/>
+  <text x="285" y="328" text-anchor="middle" class="label">Pengunjung</text>
+  <text x="285" y="354" text-anchor="middle" class="small">melihat katalog dan detail</text>
+
+  <rect x="150" y="440" width="270" height="86" class="entity"/>
+  <text x="285" y="476" text-anchor="middle" class="label">Pembeli</text>
+  <text x="285" y="502" text-anchor="middle" class="small">checkout dan transaksi</text>
+
+  <rect x="900" y="310" width="500" height="160" class="system"/>
+  <text x="1150" y="363" text-anchor="middle" class="label">0. Sistem E-Commerce Ouvvee Toys</text>
+  <text x="1150" y="397" text-anchor="middle" class="small">katalog, auth, wishlist, keranjang, checkout,</text>
+  <text x="1150" y="421" text-anchor="middle" class="small">pembayaran simulasi, pengiriman, review, dashboard</text>
+
+  <rect x="1780" y="366" width="270" height="86" class="entity"/>
+  <text x="1915" y="402" text-anchor="middle" class="label">Admin</text>
+  <text x="1915" y="428" text-anchor="middle" class="small">monitoring stok dan penjualan</text>
+
+  <path d="M420 320 C590 290 700 305 900 354" class="line"/>
+  <text x="625" y="294" text-anchor="middle" class="flow">permintaan katalog/detail produk</text>
+  <path d="M900 382 C710 420 600 420 420 357" class="line"/>
+  <text x="635" y="430" text-anchor="middle" class="flow">informasi produk, gambar, review</text>
+
+  <path d="M420 468 C590 452 725 430 900 414" class="line"/>
+  <text x="640" y="458" text-anchor="middle" class="flow">login, keranjang, checkout, pembayaran, review</text>
+  <path d="M900 452 C705 555 585 550 420 500" class="line"/>
+  <text x="640" y="560" text-anchor="middle" class="flow">invoice, status pesanan, status kirim</text>
+
+  <path d="M1780 390 C1665 365 1560 358 1400 370" class="line"/>
+  <text x="1590" y="348" text-anchor="middle" class="flow">permintaan dashboard</text>
+  <path d="M1400 420 C1560 500 1660 488 1780 430" class="line"/>
+  <text x="1590" y="510" text-anchor="middle" class="flow">ringkasan stok dan penjualan</text>
+
+  <rect x="80" y="635" width="2040" height="965" class="panel"/>
+  <text x="120" y="682" class="section">DFD Level 1 - Rincian Proses Utama</text>
+
+  <rect x="130" y="760" width="220" height="78" class="entity"/>
+  <text x="240" y="793" text-anchor="middle" class="label">Pengunjung</text>
+  <text x="240" y="817" text-anchor="middle" class="small">akses publik</text>
+
+  <rect x="130" y="980" width="220" height="78" class="entity"/>
+  <text x="240" y="1013" text-anchor="middle" class="label">Pembeli</text>
+  <text x="240" y="1037" text-anchor="middle" class="small">user login</text>
+
+  <rect x="1845" y="930" width="220" height="78" class="entity"/>
+  <text x="1955" y="963" text-anchor="middle" class="label">Admin</text>
+  <text x="1955" y="987" text-anchor="middle" class="small">melihat dashboard</text>
+
+  <rect x="460" y="725" width="250" height="94" class="process"/>
+  <text x="585" y="762" text-anchor="middle" class="label">P2 Katalog Produk</text>
+  <text x="585" y="789" text-anchor="middle" class="small">produk, kategori, galeri</text>
+
+  <rect x="460" y="895" width="250" height="94" class="process"/>
+  <text x="585" y="932" text-anchor="middle" class="label">P1 Registrasi/Login</text>
+  <text x="585" y="959" text-anchor="middle" class="small">validasi akun user</text>
+
+  <rect x="460" y="1090" width="250" height="94" class="process"/>
+  <text x="585" y="1127" text-anchor="middle" class="label">P3 Wishlist</text>
+  <text x="585" y="1154" text-anchor="middle" class="small">simpan produk favorit</text>
+
+  <rect x="815" y="895" width="250" height="94" class="process"/>
+  <text x="940" y="932" text-anchor="middle" class="label">P4 Keranjang</text>
+  <text x="940" y="959" text-anchor="middle" class="small">item, jumlah, subtotal</text>
+
+  <rect x="1160" y="895" width="250" height="94" class="process"/>
+  <text x="1285" y="932" text-anchor="middle" class="label">P5 Checkout</text>
+  <text x="1285" y="959" text-anchor="middle" class="small">buat order dan item</text>
+
+  <rect x="1495" y="760" width="250" height="94" class="process"/>
+  <text x="1620" y="797" text-anchor="middle" class="label">P6 Pembayaran</text>
+  <text x="1620" y="824" text-anchor="middle" class="small">simulasi status bayar</text>
+
+  <rect x="1495" y="1080" width="250" height="94" class="process"/>
+  <text x="1620" y="1117" text-anchor="middle" class="label">P7 Pengiriman</text>
+  <text x="1620" y="1144" text-anchor="middle" class="small">ongkir, resi, status</text>
+
+  <rect x="1160" y="1260" width="250" height="94" class="process"/>
+  <text x="1285" y="1297" text-anchor="middle" class="label">P8 Review</text>
+  <text x="1285" y="1324" text-anchor="middle" class="small">rating dan komentar</text>
+
+  <rect x="1495" y="930" width="250" height="94" class="process"/>
+  <text x="1620" y="967" text-anchor="middle" class="label">P9 Dashboard Admin</text>
+  <text x="1620" y="994" text-anchor="middle" class="small">stok dan penjualan</text>
+
+  <rect x="815" y="700" width="260" height="66" class="store"/>
+  <line x1="837" y1="700" x2="837" y2="766" class="store-divider"/>
+  <text x="945" y="728" text-anchor="middle" class="label">D2 Products</text>
+  <text x="945" y="752" text-anchor="middle" class="small">categories, product_images</text>
+
+  <rect x="815" y="810" width="260" height="66" class="store"/>
+  <line x1="837" y1="810" x2="837" y2="876" class="store-divider"/>
+  <text x="945" y="838" text-anchor="middle" class="label">D1 Users</text>
+  <text x="945" y="862" text-anchor="middle" class="small">users, addresses</text>
+
+  <rect x="815" y="1098" width="260" height="66" class="store"/>
+  <line x1="837" y1="1098" x2="837" y2="1164" class="store-divider"/>
+  <text x="945" y="1126" text-anchor="middle" class="label">D3 Wishlists</text>
+  <text x="945" y="1150" text-anchor="middle" class="small">id_user + id_product</text>
+
+  <rect x="1160" y="780" width="260" height="66" class="store"/>
+  <line x1="1182" y1="780" x2="1182" y2="846" class="store-divider"/>
+  <text x="1290" y="808" text-anchor="middle" class="label">D4 Carts</text>
+  <text x="1290" y="832" text-anchor="middle" class="small">carts, cart_items</text>
+
+  <rect x="1160" y="1065" width="260" height="66" class="store"/>
+  <line x1="1182" y1="1065" x2="1182" y2="1131" class="store-divider"/>
+  <text x="1290" y="1093" text-anchor="middle" class="label">D5 Orders</text>
+  <text x="1290" y="1117" text-anchor="middle" class="small">orders, order_items</text>
+
+  <rect x="1810" y="760" width="260" height="66" class="store"/>
+  <line x1="1832" y1="760" x2="1832" y2="826" class="store-divider"/>
+  <text x="1940" y="788" text-anchor="middle" class="label">D6 Payments</text>
+  <text x="1940" y="812" text-anchor="middle" class="small">methods, payments</text>
+
+  <rect x="1810" y="1080" width="260" height="66" class="store"/>
+  <line x1="1832" y1="1080" x2="1832" y2="1146" class="store-divider"/>
+  <text x="1940" y="1108" text-anchor="middle" class="label">D7 Shipping</text>
+  <text x="1940" y="1132" text-anchor="middle" class="small">methods, rates, shipments</text>
+
+  <rect x="1495" y="1280" width="260" height="66" class="store"/>
+  <line x1="1517" y1="1280" x2="1517" y2="1346" class="store-divider"/>
+  <text x="1625" y="1308" text-anchor="middle" class="label">D8 Reviews</text>
+  <text x="1625" y="1332" text-anchor="middle" class="small">reviews</text>
+
+  <path d="M350 790 H460" class="line"/>
+  <text x="405" y="775" text-anchor="middle" class="flow">minta katalog</text>
+  <path d="M460 812 C405 868 380 862 350 820" class="line"/>
+  <text x="410" y="870" text-anchor="middle" class="flow">detail produk</text>
+  <path d="M710 750 C755 730 780 728 815 728" class="thin"/>
+  <text x="755" y="712" text-anchor="middle" class="flow">ambil produk</text>
+
+  <path d="M350 1004 C390 968 415 948 460 942" class="line"/>
+  <text x="410" y="968" text-anchor="middle" class="flow">login/register</text>
+  <path d="M710 922 C758 878 782 850 815 840" class="thin"/>
+  <text x="770" y="884" text-anchor="middle" class="flow">validasi akun</text>
+
+  <path d="M350 1018 C415 1068 430 1112 460 1138" class="line"/>
+  <text x="408" y="1082" text-anchor="middle" class="flow">favorit</text>
+  <path d="M710 1135 H815" class="thin"/>
+  <text x="762" y="1120" text-anchor="middle" class="flow">simpan</text>
+  <path d="M600 1090 C640 960 760 775 815 735" class="muted"/>
+  <text x="665" y="900" class="flow">referensi produk</text>
+
+  <path d="M350 1018 C525 1010 630 970 815 950" class="line"/>
+  <text x="590" y="986" text-anchor="middle" class="flow">tambah/ubah item</text>
+  <path d="M940 895 C930 820 930 785 930 766" class="thin"/>
+  <text x="894" y="825" class="flow">cek stok</text>
+  <path d="M1065 918 C1102 872 1130 833 1160 812" class="thin"/>
+  <text x="1110" y="862" class="flow">simpan cart</text>
+
+  <path d="M1065 945 H1160" class="line"/>
+  <text x="1112" y="930" text-anchor="middle" class="flow">checkout</text>
+  <path d="M350 1036 C620 1115 950 1038 1160 974" class="line"/>
+  <text x="790" y="1080" text-anchor="middle" class="flow">alamat, metode bayar, metode kirim</text>
+  <path d="M1285 989 V1065" class="thin"/>
+  <text x="1324" y="1030" class="flow">buat order</text>
+  <path d="M1160 928 C1085 900 1090 840 1160 813" class="muted"/>
+  <text x="1092" y="872" text-anchor="middle" class="flow">ambil cart</text>
+
+  <path d="M1410 918 C1450 865 1470 830 1495 808" class="line"/>
+  <text x="1448" y="860" text-anchor="middle" class="flow">tagihan</text>
+  <path d="M1745 800 H1810" class="thin"/>
+  <text x="1778" y="785" text-anchor="middle" class="flow">catat bayar</text>
+  <path d="M1495 835 C1415 920 1360 1008 1320 1065" class="thin"/>
+  <text x="1415" y="950" text-anchor="middle" class="flow">update status</text>
+
+  <path d="M1410 970 C1465 1015 1485 1065 1495 1118" class="line"/>
+  <text x="1462" y="1032" text-anchor="middle" class="flow">data kirim</text>
+  <path d="M1745 1120 H1810" class="thin"/>
+  <text x="1778" y="1105" text-anchor="middle" class="flow">ongkir/resi</text>
+
+  <path d="M350 1048 C610 1260 950 1300 1160 1308" class="line"/>
+  <text x="690" y="1268" text-anchor="middle" class="flow">rating setelah transaksi</text>
+  <path d="M1285 1260 C1285 1198 1288 1165 1290 1131" class="muted"/>
+  <text x="1325" y="1195" class="flow">validasi order</text>
+  <path d="M1410 1310 H1495" class="thin"/>
+  <text x="1452" y="1295" text-anchor="middle" class="flow">simpan</text>
+
+  <path d="M1845 968 H1745" class="line"/>
+  <text x="1795" y="952" text-anchor="middle" class="flow">minta laporan</text>
+  <path d="M1620 930 C1550 840 1400 765 1075 728" class="muted"/>
+  <text x="1390" y="762" text-anchor="middle" class="flow">stok produk</text>
+  <path d="M1495 980 C1430 1025 1422 1062 1420 1090" class="muted"/>
+  <text x="1450" y="1045" class="flow">penjualan</text>
+  <path d="M1745 970 H1845" class="line"/>
+  <text x="1795" y="1015" text-anchor="middle" class="flow">stok &amp; penjualan</text>
+
+  <text x="120" y="1550" class="note">Sumber: PRD, database-design.md, dan schema.sql. Batasan: pembayaran masih simulasi; pengiriman memakai data metode dan tarif internal.</text>
+</svg>
