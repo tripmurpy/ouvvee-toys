@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Shipment extends Model
 {
-    public const STATUS_NOT_SHIPPED = 'not_shipped';
-    public const STATUS_ON_DELIVERY = 'on_delivery';
+    use HasUuids;
+
+    public const STATUS_NOT_SHIPPED = 'pending';
+    public const STATUS_ON_DELIVERY = 'shipped';
     public const STATUS_DELIVERED = 'delivered';
 
     protected $primaryKey = 'id_shipment';

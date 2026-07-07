@@ -5,12 +5,8 @@
 
 @php
     $featured = $featured ?? collect();
-    $heroImageUrl = data_get($featured, '0.image_url');
-    $heroImagePath = $heroImageUrl ? ltrim(parse_url($heroImageUrl, PHP_URL_PATH) ?: $heroImageUrl, '/') : null;
-    $heroModelUrl = data_get($featured, '0.model_url', '/models/products/robot_police.glb');
-    $heroModelPath = ltrim(parse_url($heroModelUrl, PHP_URL_PATH) ?: $heroModelUrl, '/');
-    // ponytail: support this repo snapshot and a normal Laravel public path until frontend files are merged into one app root.
-    $heroModelExists = file_exists(public_path($heroModelPath)) || file_exists(base_path('frontend/public/' . $heroModelPath));
+    $heroModelPath = 'models/products/mech (2).glb';
+    $heroModelExists = file_exists(public_path($heroModelPath));
 @endphp
 
 @if($heroModelExists)
@@ -36,17 +32,16 @@
     </nav>
 
     <section class="gallery-hero" id="exhibit" aria-labelledby="gallery-title">
-        <div class="gallery-stage" aria-label="Preview produk unggulan">
-            @if($heroImageUrl)
-                <img src="{{ asset($heroImagePath) }}" alt="Foto {{ data_get($featured, '0.product_name') }}" loading="eager">
-            @elseif($heroModelExists)
+        <div class="gallery-stage" aria-label="Preview model mech">
+            @if($heroModelExists)
                 <model-viewer
                     src="{{ asset($heroModelPath) }}"
-                    alt="Model 3D {{ data_get($featured, '0.name', data_get($featured, '0.product_name')) }}"
-                    camera-controls
+                    alt="Model 3D mech"
                     auto-rotate
-                    shadow-intensity="1"
-                    exposure=".86"
+                    interaction-prompt="none"
+                    environment-image="neutral"
+                    exposure="1.65"
+                    shadow-intensity=".35"
                     loading="eager"
                 ></model-viewer>
             @else
@@ -58,7 +53,7 @@
 
         <div class="gallery-hero-copy">
             <p class="gallery-kicker">The Gallery // Exhibit 01</p>
-            <h1 id="gallery-title">{{ data_get($featured, '0.product_name', 'Curated Display Figures') }}</h1>
+            <h1 id="gallery-title">Mech Display Unit</h1>
             <p>Collector-grade display toys with live stock, clear provenance, and a short path from inspection to checkout.</p>
             <div class="gallery-actions">
                 <a class="gallery-btn gallery-btn-primary" href="{{ url('/products') }}">Enter Collection</a>
@@ -79,45 +74,55 @@
             <a href="{{ url('/products') }}">View all works</a>
         </div>
 
-        <div class="gallery-product-grid">
-            @foreach($featured as $product)
-                @php
-                    $name = data_get($product, 'name', data_get($product, 'product_name'));
-                    $category = data_get($product, 'category.category_name', data_get($product, 'category'));
-                    $imageUrl = data_get($product, 'image_url');
-                    $imagePath = $imageUrl ? ltrim(parse_url($imageUrl, PHP_URL_PATH) ?: $imageUrl, '/') : null;
-                    $modelUrl = data_get($product, 'model_url');
-                    $modelPath = $modelUrl ? ltrim(parse_url($modelUrl, PHP_URL_PATH) ?: $modelUrl, '/') : null;
-                    $modelExists = $modelPath && (file_exists(public_path($modelPath)) || file_exists(base_path('frontend/public/' . $modelPath)));
-                    $slug = data_get($product, 'slug', trim(strtolower(preg_replace('/[^a-z0-9]+/i', '-', $name)), '-'));
-                @endphp
-                <article class="gallery-product">
-                    <a class="gallery-product-media" href="{{ route('products.show', $slug) }}" aria-label="Lihat {{ $name }}">
-                        @if($imageUrl)
-                            <img src="{{ asset($imagePath) }}" alt="Foto {{ $name }}" loading="lazy">
-                        @elseif($modelExists)
-                            <model-viewer
-                                src="{{ asset($modelPath) }}"
-                                alt="Model 3D {{ $name }}"
-                                auto-rotate
-                                shadow-intensity=".7"
-                                loading="lazy"
-                            ></model-viewer>
-                        @else
-                            <span class="product-shape" aria-hidden="true"></span>
-                        @endif
-                    </a>
-                    <div class="gallery-product-body">
-                        <span>{{ $category }}</span>
-                        <h3>{{ $name }}</h3>
-                        <div class="gallery-product-meta">
-                            <x-price :amount="data_get($product, 'price')" />
-                            <strong>{{ data_get($product, 'stock') }} in stock</strong>
-                        </div>
-                        <a class="gallery-btn gallery-btn-primary" href="{{ route('products.show', $slug) }}">Acquire</a>
+        <div class="gallery-product-marquee" data-gallery-marquee>
+            <div class="gallery-product-track">
+                @foreach([false, true] as $isClone)
+                    <div class="gallery-product-grid" @if($isClone) aria-hidden="true" @endif>
+                        @foreach($featured as $product)
+                            @php
+                                $name = data_get($product, 'name', data_get($product, 'product_name'));
+                                $displayImagePath = method_exists($product, 'displayImagePath') ? $product->displayImagePath() : null;
+                                $displayModelPath = method_exists($product, 'displayModelPath') ? $product->displayModelPath() : null;
+                                $imageUrl = data_get($product, 'image_url');
+                                $imagePath = $displayImagePath ?: ($imageUrl ? ltrim(parse_url($imageUrl, PHP_URL_PATH) ?: $imageUrl, '/') : null);
+                                $modelPath = $displayModelPath ?: (($modelUrl = data_get($product, 'model_url')) ? ltrim(parse_url($modelUrl, PHP_URL_PATH) ?: $modelUrl, '/') : null);
+                                $modelExists = (bool) $modelPath;
+                                $slug = data_get($product, 'slug', trim(strtolower(preg_replace('/[^a-z0-9]+/i', '-', $name)), '-'));
+                            @endphp
+                            <article class="gallery-product">
+                                <a class="gallery-product-media" href="{{ route('products.show', $slug) }}" aria-label="Lihat {{ $name }}">
+                                    @if($modelExists)
+                                        <model-viewer
+                                            src="{{ asset($modelPath) }}"
+                                            alt="Model 3D {{ $name }}"
+                                            camera-controls
+                                            auto-rotate
+                                            interaction-prompt="none"
+                                            environment-image="neutral"
+                                            exposure="1.65"
+                                            shadow-intensity=".35"
+                                            touch-action="pan-y"
+                                            loading="lazy"
+                                        ></model-viewer>
+                                    @elseif($imagePath)
+                                        <img src="{{ asset($imagePath) }}" alt="Foto {{ $name }}" loading="lazy">
+                                    @else
+                                        <span class="product-shape" aria-hidden="true"></span>
+                                    @endif
+                                </a>
+                                <div class="gallery-product-body">
+                                    <h3>{{ $name }}</h3>
+                                    <div class="gallery-product-meta">
+                                        <x-price :amount="data_get($product, 'price')" />
+                                        <strong>{{ data_get($product, 'stock') }} stok tersedia</strong>
+                                    </div>
+                                    <a class="gallery-btn gallery-btn-primary" href="{{ route('products.show', $slug) }}">Beli</a>
+                                </div>
+                            </article>
+                        @endforeach
                     </div>
-                </article>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </section>
 </section>

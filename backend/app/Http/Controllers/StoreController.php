@@ -15,7 +15,7 @@ class StoreController extends Controller
                 ->withCount('reviews')
                 ->withAvg('reviews', 'rating')
                 ->latest('id_product')
-                ->limit(3)
+                ->limit(9)
                 ->get(),
         ]);
     }

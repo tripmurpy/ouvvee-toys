@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    use HasUuids;
     use Notifiable;
 
     public const ROLE_ADMIN = 'admin';
@@ -14,13 +16,23 @@ class User extends Authenticatable
 
     protected $primaryKey = 'id_user';
 
-    protected $fillable = ['name', 'email', 'password', 'phone', 'role'];
+    protected $fillable = ['name', 'email', 'password', 'password_hash', 'phone', 'role'];
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'password_hash', 'remember_token'];
 
     protected $casts = [
-        'password' => 'hashed',
+        'password_hash' => 'hashed',
     ];
+
+    public function getAuthPasswordName(): string
+    {
+        return 'password_hash';
+    }
+
+    public function setPasswordAttribute(string $value): void
+    {
+        $this->setAttribute('password_hash', $value);
+    }
 
     public function addresses()
     {

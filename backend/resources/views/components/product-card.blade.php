@@ -2,13 +2,10 @@
 
 @php
     $name = data_get($product, 'name', data_get($product, 'product_name', 'Mainan Koleksi'));
-    $category = data_get($product, 'category.category_name', data_get($product, 'category', 'Toys'));
-    $brand = data_get($product, 'brand', data_get($product, 'seller.name', 'Ouvvee Curated'));
     $label = data_get($product, 'label');
     $id = data_get($product, 'id_product');
     $price = data_get($product, 'price', 0);
     $stock = (int) data_get($product, 'stock', 0);
-    $age = data_get($product, 'age', data_get($product, 'recommended_age', '3+'));
     $rating = (int) round((float) data_get($product, 'rating', data_get($product, 'reviews_avg_rating', 5)));
     $reviewsValue = data_get($product, 'reviews_count');
     if ($reviewsValue === null) {
@@ -18,16 +15,16 @@
     $reviews = (int) $reviewsValue;
     $slug = data_get($product, 'slug', trim(strtolower(preg_replace('/[^a-z0-9]+/i', '-', $name)), '-'));
     $url = data_get($product, 'url', url('/products/' . $slug));
+    $displayImagePath = is_object($product) && method_exists($product, 'displayImagePath') ? $product->displayImagePath() : null;
+    $displayModelPath = is_object($product) && method_exists($product, 'displayModelPath') ? $product->displayModelPath() : null;
     $imageUrl = data_get($product, 'image_url');
-    $imagePath = $imageUrl ? ltrim(parse_url($imageUrl, PHP_URL_PATH) ?: $imageUrl, '/') : null;
-    $modelUrl = data_get($product, 'model_url');
-    $modelPath = $modelUrl ? ltrim(parse_url($modelUrl, PHP_URL_PATH) ?: $modelUrl, '/') : null;
-    // ponytail: check both normal Laravel public path and this repo snapshot's frontend/public path.
-    $modelExists = $modelPath && (file_exists(public_path($modelPath)) || file_exists(base_path('frontend/public/' . $modelPath)));
+    $imagePath = $displayImagePath ?: ($imageUrl ? ltrim(parse_url($imageUrl, PHP_URL_PATH) ?: $imageUrl, '/') : null);
+    $modelPath = $displayModelPath ?: (($modelUrl = data_get($product, 'model_url')) ? ltrim(parse_url($modelUrl, PHP_URL_PATH) ?: $modelUrl, '/') : null);
+    $modelExists = (bool) $modelPath;
     $isSoldOut = $stock < 1;
 @endphp
 
-@if(! $imageUrl && $modelExists)
+@if($modelExists)
     @once
         @push('head')
             <script type="module" src="https://unpkg.com/@google/model-viewer@4.3.1/dist/model-viewer.min.js"></script>
@@ -35,32 +32,46 @@
     @endonce
 @endif
 
-<article {{ $attributes->merge(['class' => trim('card product-card' . ($isSoldOut ? ' product-card-sold-out' : ''))]) }}>
-    <a class="product-art" href="{{ $url }}" aria-label="Lihat {{ $name }}">
-        @if($label)
-            <span class="product-label">{{ $isSoldOut ? 'Sold Out' : $label }}</span>
-        @endif
-
-        @if($imageUrl)
-            <img src="{{ asset($imagePath) }}" alt="Foto {{ $name }}" loading="lazy">
-        @elseif($modelExists)
+<article
+    {{ $attributes->merge(['class' => trim('card product-card shop-card' . ($isSoldOut ? ' product-card-sold-out' : ''))]) }}
+>
+    @if($modelExists)
+        <div class="product-art product-art-live" aria-label="Preview 3D {{ $name }}">
+            @if($label)
+                <span class="product-label">{{ $isSoldOut ? 'Sold Out' : $label }}</span>
+            @endif
+            <span class="product-art-note">Preview 3D</span>
             <model-viewer
                 src="{{ asset($modelPath) }}"
                 alt="Model 3D {{ $name }}"
+                camera-controls
                 auto-rotate
-                shadow-intensity=".8"
+                interaction-prompt="none"
+                environment-image="neutral"
+                exposure="1.65"
+                shadow-intensity=".35"
+                touch-action="pan-y"
                 loading="lazy"
             ></model-viewer>
-        @else
-            <span class="product-shape" aria-hidden="true"></span>
-        @endif
-    </a>
+        </div>
+    @else
+        <a class="product-art" href="{{ $url }}" aria-label="Lihat {{ $name }}">
+            @if($label)
+                <span class="product-label">{{ $isSoldOut ? 'Sold Out' : $label }}</span>
+            @endif
+
+            @if($imagePath)
+                <img src="{{ asset($imagePath) }}" alt="Foto {{ $name }}" loading="lazy">
+            @else
+                <span class="product-shape" aria-hidden="true"></span>
+            @endif
+        </a>
+    @endif
 
     <div class="product-body">
         <div>
-            <span class="product-brand">{{ $brand }}</span>
             <h3>{{ $name }}</h3>
-            <span class="product-category">{{ $category }} / Usia {{ $age }}</span>
+            <span class="product-card-copy">{{ $modelExists ? 'Putar model 3D langsung dari katalog sebelum buka detail.' : 'Lihat detail ukuran, stok, dan catatan produk.' }}</span>
         </div>
 
         <div class="product-rating">
@@ -72,20 +83,24 @@
 
         <div class="product-meta">
             <x-price :amount="$price" />
-            <x-badge :tone="$isSoldOut ? 'danger' : ($stock > 5 ? 'ok' : 'warn')">{{ $isSoldOut ? 'Habis' : $stock . ' stok' }}</x-badge>
+            <span class="product-stock">{{ $isSoldOut ? 'Stok habis' : $stock . ' stok tersedia' }}</span>
         </div>
 
-        <div class="actions">
-            <x-button :href="$url" variant="ghost">Detail</x-button>
+        <div class="actions shop-card-actions">
+            <x-button :href="$url" variant="ghost">Lihat</x-button>
             @if($id && ! $isSoldOut)
-                <form action="{{ route('cart.items.store') }}" method="post">
+                <form class="quick-cart" action="{{ route('cart.items.store') }}" method="post" data-cart-form>
                     @csrf
                     <input type="hidden" name="id_product" value="{{ $id }}">
-                    <input type="hidden" name="quantity" value="1">
-                    <x-button type="submit">Acquire</x-button>
+                    <div class="qty-stepper" aria-label="Jumlah {{ $name }}">
+                        <button type="button" data-qty="-1" aria-label="Kurangi jumlah">-</button>
+                        <input name="quantity" type="number" min="1" max="{{ $stock }}" value="1">
+                        <button type="button" data-qty="1" aria-label="Tambah jumlah">+</button>
+                    </div>
+                    <x-button type="submit">Beli</x-button>
                 </form>
             @else
-                <x-button :disabled="$isSoldOut" aria-disabled="{{ $isSoldOut ? 'true' : 'false' }}">{{ $isSoldOut ? 'Sold Out' : 'Acquire' }}</x-button>
+                <x-button :disabled="$isSoldOut" aria-disabled="{{ $isSoldOut ? 'true' : 'false' }}">{{ $isSoldOut ? 'Habis' : 'Beli' }}</x-button>
             @endif
         </div>
     </div>

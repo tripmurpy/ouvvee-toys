@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    public const STATUS_WAITING_PAYMENT = 'waiting_payment';
+    use HasUuids;
+
+    public const STATUS_WAITING_PAYMENT = 'pending';
     public const STATUS_PAID = 'paid';
-    public const STATUS_PROCESSING = 'processing';
+    public const STATUS_PROCESSING = 'processed';
     public const STATUS_SHIPPED = 'shipped';
     public const STATUS_COMPLETED = 'completed';
     public const STATUS_CANCELLED = 'cancelled';

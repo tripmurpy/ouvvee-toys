@@ -6,11 +6,17 @@
 @php
     $items = $items ?? collect();
     $subtotal = $subtotal ?? $items->sum(fn ($item) => $item->quantity * (float) $item->product->price);
+    $fallbackBackUrl = route('products.index');
+    $previousUrl = url()->previous();
+    $backUrl = str_starts_with($previousUrl, url('/')) && $previousUrl !== request()->fullUrl()
+        ? $previousUrl
+        : $fallbackBackUrl;
 @endphp
 
 <section class="container section split">
     <div class="stack-lg">
         <div>
+            <a class="back-link" href="{{ $backUrl }}" data-back-button="{{ $fallbackBackUrl }}">Kembali</a>
             <p class="eyebrow">Keranjang</p>
             <h1 class="page-title">Cek item</h1>
         </div>

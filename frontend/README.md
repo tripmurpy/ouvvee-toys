@@ -1,7 +1,7 @@
 # Frontend
 
-Frontend terpisah belum ada.
+Frontend statis tipis sekarang ada di folder ini.
 
-UI saat ini adalah Blade server-rendered Laravel di `../backend/resources/views`, dengan asset publik di `../backend/public`.
-
-Kalau nanti butuh SPA/static frontend terpisah, buat app baru di folder ini dan konsumsi API dari `../backend`.
+- `index.html` membaca data live dari backend Laravel di `http://127.0.0.1:8000/api/products`.
+- Ubah `<meta name="api-base-url">` di `index.html` kalau backend Anda jalan di URL lain.
+- Jalankan backend Laravel dulu, lalu buka `frontend/index.html` di browser.

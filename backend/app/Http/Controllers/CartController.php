@@ -28,6 +28,7 @@ class CartController extends Controller
         $data = $request->validate([
             'id_product' => ['required', 'exists:products,id_product'],
             'quantity' => ['required', 'integer', 'min:1'],
+            'redirect_to' => ['nullable', 'in:cart,checkout'],
         ]);
 
         $product = Product::active()->findOrFail($data['id_product']);
@@ -42,7 +43,9 @@ class CartController extends Controller
         $item->quantity = $nextQuantity;
         $item->save();
 
-        return redirect()->route('cart.index')->with('success', 'Produk masuk keranjang.');
+        $targetRoute = ($data['redirect_to'] ?? 'cart') === 'checkout' ? 'checkout.index' : 'cart.index';
+
+        return redirect()->route($targetRoute)->with('success', 'Produk masuk keranjang.');
     }
 
     public function update(Request $request, CartItem $cartItem): RedirectResponse

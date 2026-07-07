@@ -33,6 +33,11 @@ class CheckoutTest extends TestCase
             ->assertRedirect(route('cart.index'));
 
         $this->actingAs($user)
+            ->get(route('checkout.index'))
+            ->assertOk()
+            ->assertSee('images/products/mechanical-arm-display-figure.png', false);
+
+        $this->actingAs($user)
             ->post(route('checkout.store'), [
                 'recipient_name' => 'Benny',
                 'phone' => '081234567890',
@@ -50,6 +55,11 @@ class CheckoutTest extends TestCase
         $this->assertTrue(Cart::where('id_user', $user->id_user)->where('status', 'checked_out')->exists());
         $this->assertDatabaseCount('orders', 1);
         $this->assertDatabaseCount('order_items', 1);
+
+        $this->actingAs($user)
+            ->get(route('orders.show', $user->orders()->firstOrFail()))
+            ->assertOk()
+            ->assertSee('images/products/mechanical-arm-display-figure.png', false);
     }
 
     public function test_cart_merge_respects_stock_limit(): void
@@ -77,6 +87,25 @@ class CheckoutTest extends TestCase
         ])->assertSessionHas('error');
 
         $this->assertSame(2, CartItem::firstOrFail()->quantity);
+    }
+
+    public function test_buy_now_redirects_to_checkout_after_adding_item(): void
+    {
+        $this->seed();
+
+        $user = $this->createUser('buyer@ouvvee.test');
+        $product = $this->createProduct();
+
+        $this->actingAs($user)->post(route('cart.items.store'), [
+            'id_product' => $product->id_product,
+            'quantity' => 1,
+            'redirect_to' => 'checkout',
+        ])->assertRedirect(route('checkout.index'));
+
+        $this->assertDatabaseHas('cart_items', [
+            'id_product' => $product->id_product,
+            'quantity' => 1,
+        ]);
     }
 
     public function test_checkout_does_not_create_order_when_stock_is_insufficient(): void
@@ -167,8 +196,8 @@ class CheckoutTest extends TestCase
 
         $product = Product::create(array_merge([
             'id_category' => $category->id_category,
-            'slug' => 'mechanical-arm-display-figure',
-            'product_name' => 'Mechanical Arm Display Figure',
+            'slug' => 'test-mechanical-arm-display-figure',
+            'product_name' => 'Test Mechanical Arm Display Figure',
             'price' => 1195000,
             'description' => 'Figure lengan mekanik dengan base display, cocok untuk koleksi dan pajangan.',
             'image_url' => '/images/products/mechanical-arm-display-figure.png',

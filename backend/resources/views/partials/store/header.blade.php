@@ -21,7 +21,7 @@
                 <span aria-hidden="true">Search</span>
                 <input name="q" type="search" placeholder="Cari mainan..." value="{{ request('q') }}">
             </form>
-            <a class="btn btn-ghost" href="{{ route('cart.index') }}">Cart</a>
+            <a class="cart-icon-button" href="{{ route('cart.index') }}" aria-label="Buka keranjang"></a>
             @auth
                 <form action="{{ route('logout') }}" method="post">
                     @csrf

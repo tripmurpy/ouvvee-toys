@@ -14,7 +14,7 @@ class AdminDashboardController extends Controller
         $lowStockThreshold = (int) config('app.low_stock_threshold', 5);
 
         return view('admin.dashboard', [
-            'salesTotal' => Order::whereNotIn('order_status', [Order::STATUS_CANCELLED])->sum('total_price'),
+            'salesTotal' => Order::whereIn('order_status', [Order::STATUS_PAID, Order::STATUS_PROCESSING, Order::STATUS_SHIPPED, Order::STATUS_COMPLETED])->sum('total_price'),
             'orderCount' => Order::count(),
             'lowStockCount' => Product::active()->where('stock', '<=', $lowStockThreshold)->count(),
             'reviewAverage' => round((float) Review::avg('rating'), 1),

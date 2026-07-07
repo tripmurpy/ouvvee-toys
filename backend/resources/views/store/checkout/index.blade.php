@@ -41,8 +41,27 @@
         </div>
         <x-button type="submit">Buat pesanan simulasi</x-button>
     </form>
-    <aside class="card panel stack">
+    <aside class="card panel stack checkout-summary">
         <h2 style="margin:0">Ringkasan pesanan</h2>
+        <div class="order-item-list">
+            @foreach($items as $item)
+                @php($imagePath = $item->product->displayImagePath())
+                <article class="order-item-card order-item-card-compact">
+                    <div class="order-item-media">
+                        @if($imagePath)
+                            <img src="{{ asset($imagePath) }}" alt="Foto {{ $item->product->product_name }}" loading="lazy">
+                        @else
+                            <span>{{ str($item->product->product_name)->substr(0, 1)->upper() }}</span>
+                        @endif
+                    </div>
+                    <div class="order-item-copy">
+                        <h3>{{ $item->product->product_name }}</h3>
+                        <p class="muted">Qty {{ $item->quantity }}</p>
+                    </div>
+                    <strong><x-price :amount="$item->quantity * $item->product->price" /></strong>
+                </article>
+            @endforeach
+        </div>
         <x-order-summary label="Subtotal" :amount="$subtotal" />
         <x-order-summary label="Estimasi ongkir" :amount="$shippingCost" />
         <x-order-summary label="Total" :amount="$total" strong />

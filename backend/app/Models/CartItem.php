@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class CartItem extends Model
 {
+    use HasUuids;
+
     protected $primaryKey = 'id_cart_item';
 
     public $timestamps = false;

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="api-base-url" content="http://127.0.0.1:8000">
+    <title>Ouvvee Toys Live Catalog</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <main class="shell">
+        <section class="hero">
+            <p class="eyebrow">Frontend terhubung ke backend Laravel</p>
+            <h1>Data produk live dari database.</h1>
+            <p class="lede">Nama produk, harga, stok, kategori, dan gambar diambil langsung dari endpoint backend, bukan hardcode.</p>
+        </section>
+
+        <section class="toolbar" aria-label="Kontrol katalog">
+            <form id="search-form" class="search">
+                <label class="search-label" for="search-input">Cari produk</label>
+                <input id="search-input" name="q" type="search" placeholder="Contoh: dragon, mech, figure">
+                <button type="submit">Cari</button>
+            </form>
+
+            <div class="toolbar-meta">
+                <button id="refresh-button" type="button">Refresh</button>
+                <p id="status-text" class="status" aria-live="polite">Memuat katalog...</p>
+            </div>
+        </section>
+
+        <section id="product-grid" class="grid" aria-live="polite"></section>
+    </main>
+
+    <template id="product-card-template">
+        <article class="card">
+            <img class="card-image" alt="" loading="lazy">
+            <div class="card-body">
+                <p class="card-category"></p>
+                <h2 class="card-title"></h2>
+                <p class="card-price"></p>
+                <p class="card-stock"></p>
+                <p class="card-description"></p>
+                <a class="card-link" target="_blank" rel="noreferrer">Lihat detail</a>
+            </div>
+        </article>
+    </template>
+
+    <script src="./app.js"></script>
+</body>
+</html>

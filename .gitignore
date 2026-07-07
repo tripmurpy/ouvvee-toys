@@ -1,0 +1,33 @@
+# Environment files
+.env
+backend/.env
+frontend/.env
+*.env
+
+# Laravel specific ignores
+backend/storage/*.key
+backend/storage/framework/cache/data/*
+!backend/storage/framework/cache/data/.gitkeep
+backend/storage/framework/sessions/*
+!backend/storage/framework/sessions/.gitkeep
+backend/storage/framework/testing/*
+!backend/storage/framework/testing/.gitkeep
+backend/storage/framework/views/*
+!backend/storage/framework/views/.gitkeep
+backend/storage/logs/*
+!backend/storage/logs/.gitkeep
+backend/bootstrap/cache/*
+!backend/bootstrap/cache/.gitkeep
+backend/.phpunit.result.cache
+backend/phpunit.xml.bak
+
+# Dependencies
+backend/vendor/
+frontend/node_modules/
+node_modules/
+
+# OS/IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -31,7 +31,7 @@ class CheckoutController extends Controller
         $weight = $items->sum(fn ($item): int => $item->quantity * (int) $item->product->weight_gram);
         $shippingMethods = ShippingMethod::with(['rates' => fn ($query) => $query->orderBy('min_weight_gram')])->get();
         $paymentMethods = PaymentMethod::orderBy('method_name')->get();
-        $shippingCost = $this->shippingCost((int) $shippingMethods->first()?->id_shipping_method, $weight);
+        $shippingCost = $this->shippingCost($shippingMethods->first()?->id_shipping_method, $weight);
         $subtotal = $items->sum(fn ($item): float => $item->quantity * (float) $item->product->price);
 
         return view('store.checkout.index', [
@@ -103,7 +103,7 @@ class CheckoutController extends Controller
                     $weight += $item->quantity * (int) $product->weight_gram;
                 }
 
-                $shippingCost = $this->shippingCost((int) $data['id_shipping_method'], $weight);
+                $shippingCost = $this->shippingCost($data['id_shipping_method'], $weight);
                 if ($shippingCost < 0) {
                     throw new \RuntimeException('Tarif pengiriman tidak tersedia.');
                 }
@@ -160,9 +160,9 @@ class CheckoutController extends Controller
         ]);
     }
 
-    private function shippingCost(int $shippingMethodId, int $weight): float
+    private function shippingCost(?string $shippingMethodId, int $weight): float
     {
-        if ($shippingMethodId < 1 || $weight < 1) {
+        if (! $shippingMethodId || $weight < 1) {
             return -1;
         }
 
