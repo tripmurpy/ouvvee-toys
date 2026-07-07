@@ -12,15 +12,15 @@
 <section class="shop-shell">
     <section class="shop-hero" aria-labelledby="collection-title">
         <div class="shop-hero-copy">
-            <span class="eyebrow">Belanja koleksi Ouvvee Toys</span>
-            <h1 id="collection-title">Baca detail pentingnya, lalu pilih figure yang paling pas.</h1>
-            <p class="lead">Katalog ini dirapikan agar lebih enak dibaca: jarak antar elemen lebih lega, informasi utama langsung terlihat, dan preview 3D tetap tersedia di halaman detail produk.</p>
+            <span class="eyebrow">Katalog Ouvvee Toys</span>
+            <h1 id="collection-title">Koleksi figure pilihan, siap dilihat dari dekat.</h1>
+            <p class="lead">Temukan display figure dengan foto produk, stok, ukuran, catatan keamanan, dan preview 3D di halaman detail saat tersedia.</p>
         </div>
     </section>
 
     <div class="shop-results-meta">
         <p><strong>{{ $count }}</strong> koleksi siap dilihat</p>
-        <span class="shop-results-hint">Preview 3D tersedia di halaman detail produk.</span>
+        <span class="shop-results-hint">Buka detail produk untuk melihat preview 3D saat tersedia.</span>
     </div>
 
     <div class="shop-results" id="collection-grid">
