@@ -82,29 +82,13 @@
                             @php
                                 $name = data_get($product, 'name', data_get($product, 'product_name'));
                                 $displayImagePath = method_exists($product, 'displayImagePath') ? $product->displayImagePath() : null;
-                                $displayModelPath = method_exists($product, 'displayModelPath') ? $product->displayModelPath() : null;
                                 $imageUrl = data_get($product, 'image_url');
                                 $imagePath = $displayImagePath ?: ($imageUrl ? ltrim(parse_url($imageUrl, PHP_URL_PATH) ?: $imageUrl, '/') : null);
-                                $modelPath = $displayModelPath ?: (($modelUrl = data_get($product, 'model_url')) ? ltrim(parse_url($modelUrl, PHP_URL_PATH) ?: $modelUrl, '/') : null);
-                                $modelExists = (bool) $modelPath;
                                 $slug = data_get($product, 'slug', trim(strtolower(preg_replace('/[^a-z0-9]+/i', '-', $name)), '-'));
                             @endphp
                             <article class="gallery-product">
                                 <a class="gallery-product-media" href="{{ route('products.show', $slug) }}" aria-label="Lihat {{ $name }}">
-                                    @if($modelExists)
-                                        <model-viewer
-                                            src="{{ asset($modelPath) }}"
-                                            alt="Model 3D {{ $name }}"
-                                            camera-controls
-                                            auto-rotate
-                                            interaction-prompt="none"
-                                            environment-image="neutral"
-                                            exposure="1.65"
-                                            shadow-intensity=".35"
-                                            touch-action="pan-y"
-                                            loading="lazy"
-                                        ></model-viewer>
-                                    @elseif($imagePath)
+                                    @if($imagePath)
                                         <img src="{{ asset($imagePath) }}" alt="Foto {{ $name }}" loading="lazy">
                                     @else
                                         <span class="product-shape" aria-hidden="true"></span>

@@ -13,14 +13,14 @@
     <section class="shop-hero" aria-labelledby="collection-title">
         <div class="shop-hero-copy">
             <span class="eyebrow">Belanja koleksi Ouvvee Toys</span>
-            <h1 id="collection-title">Putar model 3D, baca detail pentingnya, lalu pilih figure yang paling pas.</h1>
-            <p class="lead">Katalog ini dirapikan agar lebih enak dibaca: jarak antar elemen lebih lega, informasi utama langsung terlihat, dan produk yang punya file GLB bisa dipreview interaktif dari kartu katalog.</p>
+            <h1 id="collection-title">Baca detail pentingnya, lalu pilih figure yang paling pas.</h1>
+            <p class="lead">Katalog ini dirapikan agar lebih enak dibaca: jarak antar elemen lebih lega, informasi utama langsung terlihat, dan preview 3D tetap tersedia di halaman detail produk.</p>
         </div>
     </section>
 
     <div class="shop-results-meta">
         <p><strong>{{ $count }}</strong> koleksi siap dilihat</p>
-        <span class="shop-results-hint">Preview 3D aktif pada produk yang mendukung model GLB.</span>
+        <span class="shop-results-hint">Preview 3D tersedia di halaman detail produk.</span>
     </div>
 
     <div class="shop-results" id="collection-grid">
